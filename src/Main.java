@@ -21,7 +21,7 @@ public class Main {
 		//main.addNewData();
         //main.executeQueries();
 		
-		main.executeQuery4();
+		main.executeQuery6();
 		main.close();
 	}
 
@@ -104,7 +104,7 @@ public class Main {
 //Napisz zapytanie, które zwraca iloœæ szkó³ w bazie (PodpowiedŸ: u¿yj funkcji COUNT())
 	
 	private void executeQuery3() {
-		String hql = "SELECT COUNT (school.name) from schools as school GROUP BY school.name";
+		String hql = "SELECT COUNT (school.name) FROM schools as school GROUP BY school.name";
 		List<Object> result = session.createSQLQuery(hql).list();
 		System.out.println(result.size());				
 		
@@ -125,8 +125,13 @@ public class Main {
 
 //wyszukuje szko³ê z klas¹ o profilu mat-fiz oraz obecnym roku wiêkszym b¹dŸ równym 2
 	private void executeQuery6() {
+		String hql = "SELECT s FROM School as s JOIN s.classes classes WHERE classes.profile='mat-fiz' AND classes.currentYear >= 2";
+		Query query = session.createQuery(hql);
+		List<School> results = query.list();
+		for (School s : results) {
+		System.out.println(s);
 	}
-	
+}
 	private void jdbcTest() {
 		Connection conn = null;
 		Statement stmt = null;
