@@ -21,7 +21,7 @@ public class Main {
 		//main.addNewData();
         //main.executeQueries();
 		
-		main.executeQuery6();
+		main.executeQuery3();
 		main.close();
 	}
 
@@ -103,10 +103,11 @@ public class Main {
 
 //Napisz zapytanie, które zwraca iloœæ szkó³ w bazie (PodpowiedŸ: u¿yj funkcji COUNT())
 	
-	private void executeQuery3() {
-		String hql = "SELECT COUNT (school.name) FROM schools as school GROUP BY school.name";
-		List<Object> result = session.createSQLQuery(hql).list();
-		System.out.println(result.size());				
+	private void executeQuery3() {		
+		String hql = "SELECT COUNT(S) FROM School S";
+		Query query = session.createQuery(hql);
+		Integer schoolsCount = (Integer) query.uniqueResult();
+		System.out.println("Schools count: " + schoolsCount);
 		
 	}
 
@@ -121,6 +122,10 @@ public class Main {
 
 //Napisz zapytanie, które zwraca wszystkie szko³y o liczbie klas wiêkszej lub równej 2.
 	private void executeQuery5() {
+		String hql = "SELECT COUNT(S) FROM School S WHERE size(S.classes)>=2";
+		Query query = session.createQuery(hql);
+		Integer schoolsCount = (Integer) query.uniqueResult();
+		System.out.println("Schools count: " + schoolsCount);
 	}
 
 //wyszukuje szko³ê z klas¹ o profilu mat-fiz oraz obecnym roku wiêkszym b¹dŸ równym 2
