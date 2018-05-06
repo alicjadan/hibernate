@@ -3,13 +3,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 public class Main {
 
@@ -33,10 +30,20 @@ public class Main {
 	private void printSchools() {
 		Criteria crit = session.createCriteria(School.class);
 		List<School> schools = crit.list();
+		List<SchoolClass> classes = crit.list();
 
 		System.out.println("### Schools and classes");
 		for (School s : schools) {
 			System.out.println(s);
+
+			for (SchoolClass sc : s.getClasses()) {
+				System.out.println(sc);
+				System.out.println("  > Students:");
+								
+				for (Student st : sc.getStudents()) {
+					System.out.println(st);
+				}
+			}
 		}
 	}
 
