@@ -5,8 +5,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -16,8 +17,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		Main main = new Main();
-		main.printSchools();
-		main.addNewData();
+		//main.printSchools();
+		//main.addNewData();
+        //main.executeQueries();
+		
+		main.executeQuery4();
 		main.close();
 	}
 
@@ -68,6 +72,61 @@ public class Main {
 
 	}
 
+/*	private void executeQueries() {
+        String hql = "FROM School";
+        Query query = session.createQuery(hql);
+        List results = query.list();
+        System.out.println(results);
+}*/
+
+//Chcemy znaleŸæ tylko szko³y, których nazwa to UE
+	
+	private void executeQuery1() {
+		String hql = "FROM School as school WHERE school.name='UE'";
+		Query query = session.createQuery(hql);
+		List<School> results = query.list();
+		for (School s : results) {
+			System.out.println(s);
+		}
+	}
+
+//Wykorzystuj¹c funkcjê session.delete() i analogiê do tworzenia obiektów, usuñ wszystkie odnalezione w powy¿szym punkcie szko³y.	
+	
+	private void executeQuery2() {
+		String hql = "FROM School as school WHERE school.name='UE'";
+		Query query = session.createQuery(hql);
+		List<School> results = query.list();
+		for (School s : results) {
+			System.out.println("DRY RUN: session.delete(s)");
+		}
+	}
+
+//Napisz zapytanie, które zwraca iloœæ szkó³ w bazie (PodpowiedŸ: u¿yj funkcji COUNT())
+	
+	private void executeQuery3() {
+		String hql = "SELECT COUNT (school.name) from schools as school GROUP BY school.name";
+		List<Object> result = session.createSQLQuery(hql).list();
+		System.out.println(result.size());				
+		
+	}
+
+//Napisz zapytanie, które zwraca iloœæ studentów w bazie.
+	private void executeQuery4() {
+		String hql = "FROM Student as students";
+		Query query = session.createQuery(hql);
+		List<School> results = query.list();
+		System.out.println(results.size());
+	
+	}
+
+//Napisz zapytanie, które zwraca wszystkie szko³y o liczbie klas wiêkszej lub równej 2.
+	private void executeQuery5() {
+	}
+
+//wyszukuje szko³ê z klas¹ o profilu mat-fiz oraz obecnym roku wiêkszym b¹dŸ równym 2
+	private void executeQuery6() {
+	}
+	
 	private void jdbcTest() {
 		Connection conn = null;
 		Statement stmt = null;
