@@ -6,6 +6,16 @@ public class Student {
 	private String surname;
 	private String pesel;
 	
+	public Student () {
+		
+	}
+	
+	public Student(String name, String surname, String pesel) {
+		this.name = name;
+		this.surname = surname;
+		this.pesel = pesel;
+	}
+	
 	public long getId() {
 		return id;
 	}

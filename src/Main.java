@@ -5,8 +5,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class Main {
 
@@ -15,6 +17,7 @@ public class Main {
 	public static void main(String[] args) {
 		Main main = new Main();
 		main.printSchools();
+		main.addNewData();
 		main.close();
 	}
 
@@ -30,7 +33,6 @@ public class Main {
 	private void printSchools() {
 		Criteria crit = session.createCriteria(School.class);
 		List<School> schools = crit.list();
-		List<SchoolClass> classes = crit.list();
 
 		System.out.println("### Schools and classes");
 		for (School s : schools) {
@@ -39,12 +41,31 @@ public class Main {
 			for (SchoolClass sc : s.getClasses()) {
 				System.out.println(sc);
 				System.out.println("  > Students:");
-								
+
 				for (Student st : sc.getStudents()) {
 					System.out.println(st);
 				}
 			}
 		}
+	}
+
+	private void addNewData() {
+		Student st1 = new Student("Anna", "Nowak", "90100207654");
+		Student st2 = new Student("Tomasz", "Kwiatek", "89010189456");
+		Student st3 = new Student("Maria", "Ignaciak", "88121290345");
+		
+		SchoolClass sc = new SchoolClass(2017, 2018, "biol-chem");
+		sc.addStudent(st1);
+		sc.addStudent(st2);
+		sc.addStudent(st3);
+		
+		School s = new School("UJ", "Grodzka 56");
+		s.addClasses(sc);
+		
+		Transaction transaction = session.beginTransaction();
+		session.save(s);
+		transaction.commit();
+
 	}
 
 	private void jdbcTest() {
